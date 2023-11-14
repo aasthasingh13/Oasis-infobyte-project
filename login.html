@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 0;
+    }
+    
+    h1 {
+        color: #333;
+    }
+    
+    form {
+        background-color: #fff;
+        border: 1px solid #ccc;
+        padding: 20px;
+        margin: 20px auto;
+        max-width: 300px;
+    
+    }
+    
+    input[type="text"],
+    input[type="password"] {
+        width: 90%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 1px;
+    }
+    
+    button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 3px;
+}
+
+button:hover {
+        background-color: #0056b3;
+}
+
+#securedPage {
+        background-color: #fff;
+        border: 1px solid #ccc;
+        padding: 20px;
+        margin: 20px auto;
+        max-width: 300px;
+}
+
+#logoutButton {
+        background-color: #ff3333;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 3px;
+} 
+
+#logoutButton:hover {
+        background-color: #d20000;
+}
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Login Authentication System</title>
+</head>
+<body>
+    <h1>Login Authentication System</h1>
+    
+    <!-- Registration Form -->
+    <h2>Register</h2>
+    <form id="registerForm">
+        <input type="text" id="regUsername" placeholder="Username" required>
+        <input type="password" id="regPassword" placeholder="Password" required>
+        <button type="submit">Register</button>
+    </form>
+
+    <!-- Login Form -->
+    <h2>Login</h2>
+    <form id="loginForm">
+        <input type="text" id="loginUsername" placeholder="Username" required>
+        <input type="password" id="loginPassword" placeholder="Password" required>
+        <button type="submit">Login</button>
+    </form>
+
+    <!-- Secured Page -->
+    <div id="securedPage" style="display: none;">
+        <h2>Welcome to the Secured Page</h2>
+        <button id="logoutButton">Logout</button>
+    </div>
+    <script>
+        const users = [
+    { username: "user1", password: "password1" },
+    { username: "user2", password: "password2" }
+];
+
+const registerForm = document.getElementById("registerForm");
+const loginForm = document.getElementById("loginForm");
+const securedPage = document.getElementById("securedPage");
+const logoutButton = document.getElementById("logoutButton");
+
+registerForm.addEventListener("submit", register);
+loginForm.addEventListener("submit", login);
+logoutButton.addEventListener("click", logout);
+
+function register(e) {
+    e.preventDefault();
+    const regUsername = document.getElementById("regUsername").value;
+    const regPassword = document.getElementById("regPassword").value;
+
+    if (users.some(user => user.username === regUsername)) {
+        alert("Username is already taken. Please choose another.");
+        return;
+    }
+
+    users.push({ username: regUsername, password: regPassword });
+
+    registerForm.reset();
+    alert("Registration successful. You can now log in.");
+}
+function login(e) {
+    e.preventDefault();
+    const loginUsername = document.getElementById("loginUsername").value;
+    const loginPassword = document.getElementById("loginPassword").value;
+
+    const user = users.find(user => user.username === loginUsername && user.password === loginPassword);
+
+    if (user) {
+        loginForm.reset();
+        loginForm.style.display = "none";
+        securedPage.style.display = "block";
+    } else {
+        alert("Invalid credentials. Please try again.");
+    }
+}
+
+function logout() {
+    loginForm.style.display = "block";
+    securedPage.style.display = "none";
+}
+    </script>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
